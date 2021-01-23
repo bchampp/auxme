@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.831.0",
     "fetch": "^1.1.0",
     "form-data": "^3.0.0",
     "form-urlencoded": "^4.2.1",
@@ -16,6 +17,8 @@
     "node-fetch": "^2.6.1",
     "querystring": "^0.2.0",
     "request": "^2.88.2",
+    "serverless-bundle": "^4.2.0",
+    "serverless-offline": "^6.8.0",
     "util": "^0.12.3"
   }
 }

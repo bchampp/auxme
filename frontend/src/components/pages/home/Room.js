@@ -85,8 +85,8 @@ export default function Room() {
         <InputBase
           className={classes.input}
           placeholder="Enter Room Code"
-          inputProps={{ "aria-label": "search google maps" }}
           onChange={handleChange}
+          value={roomCode}
         />
         <Divider className={classes.divider} orientation="vertical" />
         <IconButton
@@ -126,9 +126,13 @@ function NewRoomDialog({ open, handleClose }) {
         roomName,
         creatorId: "123",
       },
-    });
-    handleClose();
-    history.push(`/room/${roomCode}`);
+    }).then(res => {
+      handleClose();
+      history.push(`/room/${res.roomCode}`);
+    }).catch(err => {
+      console.log(err);
+      alert("Error creating room!");
+    })
   };
 
   const handleChange = (e) => {

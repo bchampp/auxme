@@ -1,0 +1,20 @@
+# Rooms
+createRoom: 
+  handler: 'src/handlers/rooms.createRoom'
+  description: "Create a new room"
+  events:
+    - http:
+        path: 'rooms/create'
+        method: post
+        cors: true
+        # authorizer: aws_iam
+
+getRoom: 
+  handler: 'src/handlers/rooms.getRoom'
+  description: "Get a rooms information"
+  events:
+    - http:
+        path: 'rooms/get/{id}'
+        method: get
+        cors: true
+        # authorizer: aws_iam

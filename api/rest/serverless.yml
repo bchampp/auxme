@@ -1,77 +1,51 @@
 service: auxme-restapi
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
 frameworkVersion: '2'
+
+package:
+  individually: true
 
 provider:
   name: aws
   runtime: nodejs12.x
-  lambdaHashingVersion: 20201221
+  stage: dev
   region: ca-central-1
+  lambdaHashingVersion: 20201221
+  environment: 
+    RoomsTable: "RoomsTable"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "dynamodb:PutItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:ca-central-1:*:*"
 
-functions:
-  hello:
-    handler: handler.test
-    events:
-      - http:
-          path: 'test'
-          method: get
- 
-  search:
-    handler: spotify.search
-    events:
-      - http:
-          path: search
-          method: get
-  play:
-    handler: spotify.play
-    events:
-      - http:
-          path: play
-          method: get
-  playsong:
-    handler: spotify.playsong
-    events:
-      - http:
-          path: playsong
-          method: post
-  playsongnext:
-    handler: spotify.playsongnext
-    events:
-      - http:
-          path: playsongnext
-          method: post
-  getdevices:
-    handler: spotify.getdevices
-    events:
-      - http:
-          path: getdevices
-          method: get
-  setdevice:
-    handler: spotify.setdevice
-    events:
-      - http:
-          path: setdevice
-          method: post
-  spotifylogin:
-    handler: spotify.spotifylogin
-    events:
-      - http:
-          path: spotifylogin
-          method: get
-  callback:
-    handler: spotify.callback
-    events:
-      - http:
-          path: callback
-          method: get
-  requesttest:
-    handler: spotify.requesttest
-    events:
-      - http:
-          path: requesttest
-          method: get
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  webpack:
+    webpackConfig: './webpack.config.js'
+    includeModules:
+      forceExclude:
+        -aws-sdk
+
+functions: ${file(serverless-configs/functions.yml)}
+
+resources:
+  Resources:
+    RoomsTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "roomId"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "roomId"
+          KeyType: "HASH"
+        BillingMode: PAY_PER_REQUEST
+        TableName: RoomsTable

@@ -1,0 +1,8 @@
+{
+"ClientId": "5frtrtk81nc31lonmrnmqsr9l1", 
+"AuthFlow": "USER_PASSWORD_AUTH",
+"AuthParameters": {
+        "USERNAME": "admin@example.com",
+        "PASSWORD": "Passw0rd!"
+    }    
+}

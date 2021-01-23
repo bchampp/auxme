@@ -8,7 +8,6 @@ module.exports = {
         symlinks: false,
         cacheWithContext: false,
     },
-    entry: "./src/handler.js",
     output: {
         libraryTarget: "commonjs",
         path: path.join(__dirname, ".webpack"),
