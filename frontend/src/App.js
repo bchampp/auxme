@@ -17,7 +17,6 @@ const trackPage = (page) => {
 
 const App = () => {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   const childRef = useRef();
   let location = useLocation();
@@ -41,8 +40,6 @@ const App = () => {
         onError(e);
       }
     }
-  
-    setIsAuthenticating(false);
   }
 
   return (

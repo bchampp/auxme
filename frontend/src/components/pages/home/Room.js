@@ -12,7 +12,6 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { API } from "aws-amplify";
 
@@ -61,7 +60,6 @@ export default function Room() {
    */
   const handleChange = (e) => {
     // TODO: Add logic such that no more than 5 characters inputted and checkmark when full
-    console.log(roomCode);
     if (roomCode.length >= ROOM_CODE_LENGTH - 1) {
       // TODO: Validate that the room code is valid in the DB
       setJoinRoomDisabled(false);
@@ -117,9 +115,6 @@ function NewRoomDialog({ open, handleClose }) {
   const [roomName, setRoomName] = useState("");
 
   const createRoom = () => {
-    console.log(`Creating new room: ${roomName}`);
-    // TODO: Call API to create a new room and then load room component
-    const roomCode = "12345";
 
     API.post("auxme", "/rooms/create", {
       body: {

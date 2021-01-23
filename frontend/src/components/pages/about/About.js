@@ -2,7 +2,6 @@ import React from 'react';
 import Image from '../../elements/Image';
 import FeaturesTiles from './FeaturesTiles';
 import Cta from './Cta';
-import FeaturesSplit from './FeaturesSplit';
 
 const About = () => {
     return (
