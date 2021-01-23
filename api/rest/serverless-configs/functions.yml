@@ -18,3 +18,29 @@ getRoom:
         method: get
         cors: true
         # authorizer: aws_iam
+
+
+# Spotify
+spotifylogin:
+  handler: 'src/handlers/spotify.login'
+  events:
+    - http:
+        path: 'spotify/login'
+        method: get
+        cors: true
+
+callback:
+  handler: 'src/handlers/spotify.callback'
+  events:
+    - http:
+        path: callback
+        method: get
+        cors: true
+
+requesttest:
+  handler: 'src/handlers/spotify.requesttext'
+  events:
+    - http:
+        path: requesttest
+        method: get
+        cors: true

@@ -30,8 +30,7 @@ export default function Room(props) {
     }, [roomId]);
 
     const x = () => {
-        getWSService().sendMessage('sendMessage', 'Hello world')
-
+        socketConnection.sendMessage('sendMessage', 'Hello world')
     }
 
     return (
