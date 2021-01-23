@@ -1,0 +1,42 @@
+li {
+    list-style-type: none;
+    flex-direction: column;
+    padding: 10px 0;
+    justify-content: flex-start;
+}
+
+.song-card {
+    display: flex;
+    height: 100px;
+    justify-content: flex-start;
+}
+
+img {
+    margin-left: 0 !important;
+    margin-right: 20px !important;
+}
+
+.song-info-container {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+}
+
+.song-about-container {
+    flex: 50%;
+    align-content: center;
+}
+
+.song-title {
+    margin: 0 !important;
+    padding-bottom: 10px;
+}
+
+.song-artist {
+    width: 100%;
+}
+
+.song-album {
+    width: 100%;
+}
