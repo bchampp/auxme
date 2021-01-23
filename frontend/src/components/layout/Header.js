@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from './partials/Logo';
+import { useAppContext } from "../../libs/contextLib";
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -33,6 +34,7 @@ const Header = ({
 }) => {
 
   const [isActive, setIsactive] = useState(false);
+  const { isAuthenticated } = useAppContext();
 
   const nav = useRef(null);
   const hamburger = useRef(null);
@@ -128,11 +130,16 @@ const Header = ({
                   </ul>
                   {!hideSignin &&
                     <ul
-                      className="list-reset header-nav-right"
+                      className="list-reset text-xs header-nav-right"
                     >
                       <li>
                         {/* TODO: Integrate this with Authentication flow */}
-                        <Link to="/signup" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
+                        { isAuthenticated === true ? (
+                        <Link to="/profile" onClick={closeMenu}>Profile</Link>
+                        ) : (
+                          <Link to="/login" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Log in</Link>
+                        )
+                      }
                       </li>
                     </ul>}
                 </div>
