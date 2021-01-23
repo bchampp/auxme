@@ -9,7 +9,7 @@ const querystring = require('querystring');
 const client_id = "359de0c1b4284c0294a710c41c139bba";
 const client_secret = "815f0c15f85148c991ee55c006743590";
 const scope = 'user-read-private user-read-email user-modify-playback-state user-read-playback-state';
-const redirect_uri = 'https://ka45vpf7sg.execute-api.ca-central-1.amazonaws.com/dev/callback'
+const redirect_uri = 'https://8yo2lk66lc.execute-api.ca-central-1.amazonaws.com/dev/callback'
 const stateKey = 'spotify_auth_state';
 
 /**
@@ -103,7 +103,7 @@ export const callback = async (event, context, callback) => {
         const req = https.request(options, (res) => {
             let buffer = "";
             res.on('data', chunk => buffer += chunk);
-            res.on('end', () => resolve(buffer));
+            res.on('end', () => resolve(JSON.parse(buffer)));
         });
         req.on('error', e => reject(e.message));
         req.on('response', (res) => {
@@ -143,10 +143,10 @@ export const callback = async (event, context, callback) => {
     console.log(res);
 
     return callback(null, {
-        statusCode: 200,
+        statusCode: 301,
         multiValueHeaders: { "Set-Cookie": [`access_token=${res.access_token}`, `refresh_token=${res.refresh_token}`] },
         headers: {
-            Location: 'localhost:3000',
+            Location: 'http://localhost:3000',
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Credentials": true
         }
@@ -256,4 +256,3 @@ export const callback = async (event, context, callback) => {
 //     });
 //   }).catch(callback);
 // };
-

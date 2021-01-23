@@ -1,5 +1,5 @@
 # Rooms
-createRoom: 
+createRoom:
   handler: 'src/handlers/rooms.createRoom'
   description: "Create a new room"
   events:
@@ -9,7 +9,7 @@ createRoom:
         cors: true
         # authorizer: aws_iam
 
-getRoom: 
+getRoom:
   handler: 'src/handlers/rooms.getRoom'
   description: "Get a rooms information"
   events:
@@ -34,13 +34,5 @@ callback:
   events:
     - http:
         path: callback
-        method: get
-        cors: true
-
-requesttest:
-  handler: 'src/handlers/spotify.requesttext'
-  events:
-    - http:
-        path: requesttest
         method: get
         cors: true
