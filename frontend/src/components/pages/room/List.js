@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import SongCard from "./SongCard";
 
 const songCardList = [
@@ -57,10 +57,10 @@ export default function List( { songList }) {
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap", paddingTop: "50px" }}>
-    {/* TODO: Sort logic for same number of votes, one that was most recently voted should be on top  */}
+    {/* TODO: Sort logic for same number of votes, one that was most recently voted should be on top 
       {songs.sort((a, b) => a.votes < b.votes ? 1 : -1).map((song) => (
         <SongCard song={song} handleVote={handleVote} />
-      ))}
+      ))} */}
     </div>
   );
 }

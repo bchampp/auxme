@@ -1,5 +1,4 @@
-import { useState } from "react";
-import "../../styles/songCard.css";
+import React, { useState } from "react";
 import { Button, IconButton } from "@material-ui/core";
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';

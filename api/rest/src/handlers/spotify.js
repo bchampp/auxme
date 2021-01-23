@@ -9,7 +9,7 @@ const querystring = require('querystring');
 const client_id = "359de0c1b4284c0294a710c41c139bba";
 const client_secret = "815f0c15f85148c991ee55c006743590";
 const scope = 'user-read-private user-read-email user-modify-playback-state user-read-playback-state';
-const redirect_uri = 'https://8yo2lk66lc.execute-api.ca-central-1.amazonaws.com/dev/callback'
+const redirect_uri = 'https://npzwmcjulf.execute-api.ca-central-1.amazonaws.com/dev/callback'
 const stateKey = 'spotify_auth_state';
 
 /**
@@ -148,24 +148,34 @@ export const callback = async (event, context, callback) => {
         headers: {
             Location: 'http://localhost:3000',
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
+            "Access-Control-Allow-Credentials": true,
+            "access-control-expose-headers": "Set-Cookie"
         }
     });
 };
 
-// export const search = async (event) => {
-//     return {
-//       statusCode: 200,
-//       body: JSON.stringify(
-//         {
-//           message: '',
-//           input: event,
-//         },
-//         null,
-//         2
-//       )
-//     }
-// };
+export const search = async (event) => {
+    console.log
+    let uri = 'https://api.spotify.com/v1/search';
+    const params = {
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Authorization": `Bearer `
+        }
+    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: '',
+          input: event,
+        },
+        null,
+        2
+      )
+    }
+};
 
 // module.exports.play = async (event) => {
 //     return {

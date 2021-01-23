@@ -134,6 +134,7 @@ function NewRoomDialog({ open, handleClose }) {
     setRoomName(e.target.value);
   };
 
+    // TODO: Display "join room" text box to unauthenticated users
   return (
     <Dialog
       open={open}
