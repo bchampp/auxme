@@ -1,3 +1,5 @@
+// TODO: Add Authenticated routes here for conditional rendering
+
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -130,7 +132,7 @@ const Header = ({
                     >
                       <li>
                         {/* TODO: Integrate this with Authentication flow */}
-                        <Link to="/party" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
+                        <Link to="/signup" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
                       </li>
                     </ul>}
                 </div>

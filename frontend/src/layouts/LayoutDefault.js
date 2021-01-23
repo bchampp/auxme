@@ -8,10 +8,6 @@ const LayoutDefault = ({ children }) => (
     <main className="site-content">
       {children}
     </main>
-    aws cognito-idp admin-confirm-sign-up \
-    --region ca-central-1 \
-    --user-pool-id ca-central-1_GTccCETrZ \
-    --username admin@example.com
     <Footer />
   </>
 );

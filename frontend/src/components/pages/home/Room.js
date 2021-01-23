@@ -121,7 +121,7 @@ function NewRoomDialog({ open, handleClose }) {
     // TODO: Call API to create a new room and then load room component
     const roomCode = "12345";
 
-    API.post("rooms", "/rooms/create", {
+    API.post("auxme", "/rooms/create", {
       body: {
         roomName,
         creatorId: "123",

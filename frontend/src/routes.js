@@ -12,14 +12,19 @@ import Home from './components/pages/home/Home';
 import About from './components/pages/about/About';
 import Room from './components/pages/room/Room';
 import Rooms from './components/pages/rooms/Rooms';
+import Login from './components/auth/Login';
 import NotFound from './components/pages/NotFound';
+import Signup from "./components/auth/Signup";
 
 const Routes = ({ location }) => {
     return (
         <div>
+            {/* TODO: Add an isAuthenticated check here for protected routes! */}
             {/* Move NavBar and Footer to be global (not included in router switch) */}
             <Switch>
                 <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
+                <AppRoute exact path="/login" component={Login} />
+                <AppRoute exact path="/signup" component={Signup} />
                 <AppRoute exact path="/about" component={About} layout={LayoutDefault} />
                 <AppRoute exact path="/rooms" component={Rooms} layout={LayoutDefault} />
                 <AppRoute exact path="/room/:id" component={Room} layout={LayoutDefault} />
