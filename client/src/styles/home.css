@@ -1,0 +1,13 @@
+.home-container {
+    padding: 200px;
+    text-align: center;
+}
+
+.room-container {
+    text-align: center;
+    margin: auto;
+}
+
+.create-room {
+    padding-top: 50px;
+}

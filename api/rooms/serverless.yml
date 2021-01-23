@@ -1,0 +1,64 @@
+service: rooms
+frameworkVersion: '2'
+
+# Create an optimized package for our functions 
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: ca-central-1
+  environment: 
+    RoomsTable: "RoomsTable"
+  # TODO: Make this passed in by a config file
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "dynamodb:PutItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:ca-central-1:*:*"
+
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+
+functions:
+  createRoom: 
+    handler: handler.create
+    description: "Create a new room"
+    events:
+      - http:
+          path: 'rooms/create'
+          method: post
+          cors: true
+          authorizer: aws_iam
+
+  getRoom: 
+    handler: handler.get
+    description: "Get a rooms information"
+    events:
+      - http:
+          path: 'rooms/get/{id}'
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+resources:
+  Resources:
+    RoomsTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "roomId"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "roomId"
+          KeyType: "HASH"
+        BillingMode: PAY_PER_REQUEST
+        TableName: RoomsTable
