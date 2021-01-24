@@ -13,6 +13,7 @@ import { Auth } from "aws-amplify";
 import SpotifyPlayer from "react-spotify-web-playback";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import InputAdornment from '@material-ui/core/InputAdornment';
+import './room.css';
 const spotifyApi = new SpotifyWebApi();
 
 export default function Room(props) {
@@ -39,7 +40,7 @@ export default function Room(props) {
         },
       }).then(() => setUserAdded(true));
     }
-    
+
     async function fetchData() {
       API.get("auxme", `/rooms/${roomId}`)
         .then((res) => {
@@ -126,7 +127,7 @@ export default function Room(props) {
   return (
     <>
       <div
-        style={{ height: "100vh" }}
+        style={{ minHeight: "100vh" }}
         className="hero section center-content illustration-section-01"
       >
         {roomLoading === true ? (
@@ -136,8 +137,7 @@ export default function Room(props) {
             <h4>Welcome to the room - {roomName}</h4>
             {/* TODO: This should be light color */}
             <TextField
-            color="secondary"
-            style={{color: 'white'}}
+              className="input-shrink"
               id="sharing-link"
               value={sharingLink}
               InputProps={{
@@ -154,6 +154,7 @@ export default function Room(props) {
               <div style={{ width: "50%" }}>
                 <h4>Search Songs</h4>
                 <TextField
+                  className="input"
                   value={searchTerm}
                   onChange={handleSearch}
                   placeholder="Party Rock Anthem"

@@ -1,0 +1,23 @@
+.input {
+  color: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 0 0 15px 15px rgba(255, 255, 255, 0.06);
+
+  width: 50%;
+}
+
+.input-shrink {
+  padding-left: 10px !important;
+
+  color: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 0 0 15px 15px rgba(255, 255, 255, 0.06);
+
+  width: 20%;
+}
