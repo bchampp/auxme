@@ -35,7 +35,7 @@ export default function Rooms() {
         <ul className="rooms-list">
           {rooms.length > 0 ? (
             rooms.map((room) => (
-              <li className="room-cards" key={room.id}>
+              <li className="room-cards" key={room !== null && room.id}>
                 <RoomCards room={room} />
               </li>
             ))) : (
