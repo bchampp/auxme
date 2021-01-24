@@ -36,6 +36,8 @@ export default function Room(props) {
   const [roomName, setRoomName] = useState("");
   
   useEffect(() => {
+    let interval = setInterval(() => fetchQueueState(), 5000);
+    
     async function fetchQueueState() {
       const res = await API.get("auxme", `/queue/${queueId}`)
       console.log(res);
@@ -78,6 +80,9 @@ export default function Room(props) {
         }
       }
     }
+
+    // Component unmounts, want to unsubscribe to the interval
+    return () => clearInterval(interval);
     // SpotifyWebApi.setAccessToken(accessToken);
   }, [roomId, accessToken, queueId]);
 
