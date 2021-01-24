@@ -5,11 +5,9 @@
 import { IconButton, TextField } from "@material-ui/core";
 import { API } from "aws-amplify";
 import React, { useEffect, useState } from "react";
-import { getWSService } from "../../../service/websocket";
 import SpotifyWebApi from "spotify-web-api-js";
 import SongCards from "./songs/SongCards";
 import QueuedSongCards from "./queue/QueuedSongCards";
-import { Auth } from "aws-amplify";
 import SpotifyPlayer from "react-spotify-web-playback";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import InputAdornment from '@material-ui/core/InputAdornment';

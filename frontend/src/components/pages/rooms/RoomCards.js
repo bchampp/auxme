@@ -9,7 +9,6 @@ import "./room.css";
 
 export default function RoomCards({ room }) {
   const [isAdmin, setIsAdmin] = useState(false);
-  console.log(room.admins);
 
   useEffect(() => {
     async function fetchUserId() {
@@ -20,7 +19,7 @@ export default function RoomCards({ room }) {
       }
     }
     fetchUserId();
-  }, []);
+  }, [room.admins]);
 
   const deleteRoom = () => {
     API.del("auxme", `/rooms/${room.roomId}`)
