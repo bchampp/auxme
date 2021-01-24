@@ -1,0 +1,17 @@
+.profile {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-img {
+    margin: auto;
+    text-align: center;
+    height: 300px;
+    width: auto;
+    padding-bottom: 50px;
+}
+
+.profile-button {
+    padding: 20px;
+}

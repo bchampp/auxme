@@ -29,7 +29,7 @@ deleteUser:
   events:
     - http:
         path: 'users'
-        method: patch
+        method: delete
         cors: true
 
 # Rooms
@@ -80,7 +80,7 @@ add:
   description: "Adds a new song to the queue"
   events:
     - http:
-        path: 'queue'
+        path: 'queue/add'
         method: patch
         cors: true
 remove: 
@@ -88,7 +88,7 @@ remove:
   description: "Removes a song from the queue"
   events:
     - http:
-        path: 'queue'
+        path: 'queue/remove'
         method: patch
         cors: true
 vote:
@@ -96,7 +96,7 @@ vote:
   description: "Handles voting for a song"
   events:
     - http:
-        path: 'queue'
+        path: 'queue/vote'
         method: patch
         cors: true
 

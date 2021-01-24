@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 let dynamo = new AWS.DynamoDB.DocumentClient();
 import { generateRandomString } from '../utils/id';
+import { createNewQueue } from './queue';
 
 const ROOM_TABLE = "RoomsTable";
 

@@ -1,17 +1,48 @@
-import React, { useState } from 'react';
-const rooms = [];
-export default function Rooms() {
-    const [roomList, setroomList] = useState([]);
+import React, { useEffect, useState } from "react";
+import RoomCards from "./RoomCards";
 
-    return (
+const fake_data = [
+  {
+    roomId: "12345",
+    name: "Queen's Friends",
+    numUsers: 10,
+    isAdmin: true,
+  },
+  {
+    roomId: "12345",
+    name: "QHacks friends",
+    numUsers: 3,
+    isAdmin: false,
+  },
+  {
+    roomId: "12345",
+    name: "Another test room",
+    numUsers: 1,
+    isAdmin: false,
+  },
+];
+
+export default function Rooms() {
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      // TODO: Integrate with API for getRooms()
+      setRooms(fake_data);
+    }
+    fetchData();
+  }, []);
+  return (
     <div className="hero section center-content illustration-section-01">
-        Rooms Page
-        {/* TODO: 
-            - Call API get all rooms for user 
-            - Map the list of available rooms
-            - Still show the "Create New Room" Component here     
-        
-        */}
+      <h3>My Rooms</h3>
+      <ul>
+        {rooms.length > 0 &&
+          rooms.map((room) => (
+            <li>
+              <RoomCards room={room} />
+            </li>
+          ))}
+      </ul>
     </div>
-    )
+  );
 }

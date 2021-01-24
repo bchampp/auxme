@@ -34,6 +34,8 @@ const App = () => {
     try {
       await Auth.currentSession();
       userHasAuthenticated(true);
+      const user = await Auth.currentUserInfo()
+      window.localStorage.setItem("user", user.username)
     }
     catch(e) {
       if (e !== 'No current user') {

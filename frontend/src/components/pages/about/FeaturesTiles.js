@@ -44,8 +44,8 @@ const FeaturesTiles = ({
   );
 
   const sectionHeader = {
-    title: 'Elevate your listening experience',
-    paragraph: 'Enjoy stunning lightshows that are customized using AI for each song.'
+    title: 'Elevate your music experience',
+    paragraph: 'Collaborate and listen to music with your friends.'
   };
 
   return (

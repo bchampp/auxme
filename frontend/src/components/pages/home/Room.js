@@ -1,6 +1,5 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -55,6 +54,9 @@ export default function Room() {
     setNewRoomDialogOpen(false);
   };
 
+  useEffect(() => {
+  }, [])
+
   /**
    * Handle user text input for room codes
    */
@@ -69,11 +71,31 @@ export default function Room() {
     setRoomCode(e.target.value);
   };
 
+
+
+
   /**
    * Handle user selecting join room
    * @param e
    */
   const joinRoom = (e) => {
+    const username = window.localStorage.getItem("user");
+    API.patch("auxme", "/users", {
+      body: {
+        roomName: roomCode,
+        // TODO: This should be fetched for the authenticated user
+        userId: username,
+      },
+    }).then(res => {
+      console.log(res);
+      // handleClose();
+      
+      history.push(`/room/asdf`);
+    }).catch(err => {
+      console.log(err);
+      alert("Error creating room!");
+    })
+
     history.push(`/room/${roomCode}`);
   };
 
@@ -116,10 +138,11 @@ function NewRoomDialog({ open, handleClose }) {
 
   const createRoom = () => {
 
-    API.post("auxme", "/rooms/create", {
+    API.post("auxme", "/rooms", {
       body: {
         roomName,
-        creatorId: "123",
+        // TODO: This should be fetched for the authenticated user
+        userId: "123",
       },
     }).then(res => {
       handleClose();
@@ -129,6 +152,8 @@ function NewRoomDialog({ open, handleClose }) {
       alert("Error creating room!");
     })
   };
+
+
 
   const handleChange = (e) => {
     setRoomName(e.target.value);

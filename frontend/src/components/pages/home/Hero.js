@@ -54,9 +54,9 @@ const Hero = ({
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
                 {
                   isAuthenticated ? (
-                    <p>Welcome back!</p>
+                    <>Welcome back!</>
                   ) : (
-                <p>Join a music room, collaborate on the queue and vote on songs</p>
+                <>Join a music room, collaborate on the queue and vote on songs</>
                   )
                 }
                 </p>

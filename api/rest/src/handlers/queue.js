@@ -17,7 +17,7 @@ const QUEUE_TABLE = "QueueTable";
  * @param  roomId 
  */
 export const createNewQueue = (roomId) => {
-
+  return "ABCDE";
 }
 
 /**

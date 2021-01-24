@@ -1,18 +1,14 @@
 import { Button } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import "./songs.css";
 
 export default function SongCard({ song, handleQueue }) {
   return (
     <div className="song-card">
-      <img src={song.album.images[0].url}></img>
+      <img src={song.album.images[0].url} alt="album-art"></img>
       <div className="song-info-container">
         <h5 className="song-title">{song.name}</h5>
         <div className="song-info-container">
-          {/* <div className="song-about-container">
-            <div className="song-artist">{song.artists[0].name}</div>
-            <div className="song-album">{song.album.name}</div>
-          </div> */}
           <Button
             className="queue-song-button"
             variant="outlined"

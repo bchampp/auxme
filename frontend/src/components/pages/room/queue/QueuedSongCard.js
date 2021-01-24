@@ -3,7 +3,7 @@ import React from "react";
 export default function QueuedSongCard({ song, handleVote }) {
   return (
     <div className="song-card">
-      <img src={song.album.images[0].url}></img>
+      <img src={song.album.images[0].url} alt="Now Playing"></img>
       <div className="song-info-container">
         <h5 className="song-title">{song.name}</h5>
         <div className="song-info-container">
