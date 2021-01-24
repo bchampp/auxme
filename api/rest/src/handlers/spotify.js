@@ -158,29 +158,29 @@ export const callback = async (event, context, callback) => {
     console.log(authOptions);
     console.log("Sending request");
 
-    const res = await post(authOptions, formData);
-    console.log(res);
+    // const res = await post(authOptions, formData);
+    // console.log(res);
     
-    const user = await Auth.currentUserInfo();
-    const userId = user.username;
+    // const user = await Auth.currentUserInfo();
+    // const userId = user.username;
     
-    let data = JSON.stringify({
-        userId: userId,
-        refresh_token: res.refresh_token
-    });
-    let userOptions = {
-        host: 'npzwmcjulf.execute-api.ca-central-1.amazonaws.com',
-        path: '/dev/user/spotify',
-        method: 'POST',
-        post: 443,
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': data.length
-        }
-    };
-    const res2 = await post2(userOptions, data);
-    console.log("res2");
-    console.log(res2);
+    // let data = JSON.stringify({
+    //     userId: userId,
+    //     refresh_token: res.refresh_token
+    // });
+    // let userOptions = {
+    //     host: 'npzwmcjulf.execute-api.ca-central-1.amazonaws.com',
+    //     path: '/dev/user/spotify',
+    //     method: 'POST',
+    //     post: 443,
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Content-Length': data.length
+    //     }
+    // };
+    // const res2 = await post2(userOptions, data);
+    // console.log("res2");
+    // console.log(res2);
 
     return callback(null, {
         statusCode: 301,
