@@ -49,6 +49,8 @@ const Routes = ({ location }) => {
                 <Switch>
                     <AppRoute exact path="/" component={Home} layout={LayoutDefault} />
                     <AppRoute exact path="/about" component={About} layout={LayoutDefault} />
+                    <AppRoute exact path="/room/:id" component={Room} layout={LayoutDefault} />
+                    
                     {/* Default Page for when nothing hits */}
                     <AppRoute exact path="*" component={NotFound} />
                 </Switch>

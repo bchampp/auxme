@@ -10,12 +10,11 @@ import SongCards from "./songs/SongCards";
 import QueuedSongCards from "./queue/QueuedSongCards";
 import SpotifyPlayer from "react-spotify-web-playback";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import InputAdornment from '@material-ui/core/InputAdornment';
-import './room.css';
+import InputAdornment from "@material-ui/core/InputAdornment";
+import "./room.css";
 const spotifyApi = new SpotifyWebApi();
 
 export default function Room(props) {
-
   // Room Constants
   const roomId = props.match.params.id;
   const sharingLink = `https://auxme.ca/room/${roomId}`;
@@ -33,20 +32,22 @@ export default function Room(props) {
   // Room Info
   const [roomLoading, setRoomLoading] = useState(true);
   const [roomName, setRoomName] = useState("");
-  
+
   useEffect(() => {
     let interval = setInterval(() => fetchQueueState(), 5000);
-    
+
     async function fetchQueueState() {
-      const res = await API.get("auxme", `/queue/${queueId}`)
+      const res = await API.get("auxme", `/queue/${queueId}`);
       console.log(res);
       const queueState = res.items;
       const songs = [];
       for (const song of queueState) {
         const res = await spotifyApi.getTrack(song.songId);
-          songs.push({...res, votes: song.votes});
-        }
+        songs.push({ ...res, votes: song.votes });
+      }
+      songs.sort((a, b) => (a.votes < b.votes ? 1 : -1));
       setQueuedSongs(songs);
+      spotifyApi.queue(songs[0].uri);
     }
 
     async function fetchRoomData() {
@@ -130,6 +131,13 @@ export default function Room(props) {
         voteValue: value,
       },
     });
+    const currentSongs = [...queuedSongs];
+    for (const s of currentSongs) {
+      if (s.id === id) {
+        s.votes += value;
+      }
+    }
+    setQueuedSongs(currentSongs);
   };
 
   const copyToClipboard = () => {
@@ -152,6 +160,7 @@ export default function Room(props) {
             <h4>Welcome to the room - {roomName}</h4>
             {/* TODO: This should be light color */}
             <TextField
+              style={{ width: "400px" }}
               className="input-shrink"
               id="sharing-link"
               value={sharingLink}
@@ -165,21 +174,33 @@ export default function Room(props) {
                 ),
               }}
             />
-            <div style={{ display: "flex", flexWrap: "wrap", padding: "50px" }}>
-              <div style={{ width: "50%" }}>
-                <h4>Search Songs</h4>
-                <TextField
-                  className="input"
-                  value={searchTerm}
-                  onChange={handleSearch}
-                  placeholder="Party Rock Anthem"
-                  variant="outlined"
-                  color="primary"
-                />
-                {searchResults.length > 0 && (
-                  <SongCards songs={searchResults} handleQueue={handleQueue} />
-                )}
-              </div>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-evenly",
+                padding: "50px",
+              }}
+            >
+              {accessToken !== "" && (
+                <div style={{ width: "50%" }}>
+                  <h4>Search Songs</h4>
+                  <TextField
+                    className="input"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    placeholder="Party Rock Anthem"
+                    variant="outlined"
+                    color="primary"
+                  />
+                  {searchResults.length > 0 && (
+                    <SongCards
+                      songs={searchResults}
+                      handleQueue={handleQueue}
+                    />
+                  )}
+                </div>
+              )}
               <div style={{ width: "50%" }}>
                 <h4>Song Queue</h4>
                 {queuedSongs.length > 0 ? (
@@ -192,20 +213,22 @@ export default function Room(props) {
                 )}
               </div>
             </div>
-            <div
-              style={{
-                position: "absolute",
-                bottom: "0",
-                left: "0",
-                width: "100%",
-              }}
-            >
-              <SpotifyPlayer
-                token={accessToken}
-                uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
-                styles={{ bgColor: "#C5C8C6", trackArtistColor: "black" }}
-              />
-            </div>
+            {accessToken !== "" && (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "0",
+                  left: "0",
+                  width: "100%",
+                }}
+              >
+                <SpotifyPlayer
+                  token={accessToken}
+                  uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
+                  styles={{ bgColor: "#C5C8C6", trackArtistColor: "black" }}
+                />
+              </div>
+            )}
           </>
         )}
       </div>
