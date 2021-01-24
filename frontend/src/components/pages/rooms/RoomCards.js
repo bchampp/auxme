@@ -34,7 +34,6 @@ export default function RoomCards({ room }) {
     return (
       <div className="room-card">
         <h5 className="room-name">{room.name}</h5>
-        <p>Users: {room.numUsers}</p>
         <div className="button-container">
         <Button variant="contained" color="primary">
           <Link to={`/room/${room.roomId}`}>Join Room!</Link>

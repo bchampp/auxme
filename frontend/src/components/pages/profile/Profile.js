@@ -40,8 +40,7 @@ export default function Profile() {
   }
 
   const handleSpotifyLogin = async () => {
-    window.location =
-      "https://npzwmcjulf.execute-api.ca-central-1.amazonaws.com/dev/spotify/login";
+    window.location = "https://accounts.spotify.com/en/authorize?response_type=token&client_id=359de0c1b4284c0294a710c41c139bbacd&redirect_uri=https%3A%2F%2Fnpzwmcjulf.execute-api.ca-central-1.amazonaws.com%2Fdev%2Fspotify%2Fcallback&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state&show_dialog=true"
   };
 
   return (

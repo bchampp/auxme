@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "2px 4px",
     display: "flex",
     alignItems: "center",
-    width: 400,
+    width: "300px",
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -129,11 +129,11 @@ export default function Room() {
   }
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center"}}>
       <Paper component="form" className={classes.root}>
         <InputBase
           className={classes.input}
-          placeholder="Enter an Room Code"
+          placeholder="Enter a Room Code"
           onChange={handleChange}
           value={roomCode}
           inputProps={{maxLength: 5}}
