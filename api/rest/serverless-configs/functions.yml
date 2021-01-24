@@ -107,7 +107,6 @@ vote:
         path: 'queue/vote'
         method: patch
         cors: true
-
 get:
   handler: 'src/handlers/queue.get'
   description: "Fetches current queue state"

@@ -10,15 +10,6 @@ const CORS_HEADERS = {
 };
 
 /**
- * QueueTable: [
- *  { "songs": [
- *      { "id": "SPOTIFY_SONG_ID", votes: 0}
- *      ]
- *  }
- * ]
- */
-
-/**
  * Utility function for creating a new queue
  * @param  roomId
  */
@@ -116,6 +107,29 @@ export const add = async (event) => {
   return response;
 };
 
+export const get = async (event) => {
+  if (!event.pathParameters) {
+    const response = {
+      statusCode: 400,
+      headers: CORS_HEADERS,
+      body: "body missing in the request.",
+    };
+    return response;
+  }
+
+  const queueId = event.pathParameters.id;
+  console.log(queueId);
+  
+  const response = {
+    statusCode: 200,
+    headers: CORS_HEADERS,
+    body: {
+      message: "Success",
+      data: []
+    }
+  };
+  return response;
+}
 /**
  * Remove a song from the queue
  * @param {*} event
