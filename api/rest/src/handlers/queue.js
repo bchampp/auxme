@@ -57,36 +57,35 @@ export const add = async (event) => {
     const response = {
       statusCode: 400,
       headers: CORS_HEADERS,
-      body: "songId missing in the request."
+      body: "songId missing in the request.",
     };
     return response;
   }
   const getQueueParam = {
     TableName: process.env.QUEUE_TABLE,
     Key: {
-      queueId: data.queueId
+      queueId: data.queueId,
     },
-    projectionExpression: "songs"
-  }
+    projectionExpression: "songs",
+  };
 
   const currentQueue = await dynamo.get(getQueueParam).promise();
   console.log(currentQueue);
   const newQueue = currentQueue.Item.songs;
   newQueue.push({ songId: data.songId, votes: 0 });
 
-
   const patchTableParam = {
     TableName: process.env.QUEUE_TABLE,
     Key: {
-        queueId: data.queueId,
+      queueId: data.queueId,
     },
     UpdateExpression: "SET songs = :r",
-    ExpressionAttributeValues:{
-        ":r":newQueue
+    ExpressionAttributeValues: {
+      ":r": newQueue,
     },
-    ReturnValues:"UPDATED_NEW"
-  }  
-  
+    ReturnValues: "UPDATED_NEW",
+  };
+
   const result = await dynamo.update(patchTableParam).promise();
   console.log(result);
 
@@ -121,22 +120,23 @@ export const get = async (event) => {
 
   const params = {
     TableName: process.env.QUEUE_TABLE,
-    Key: { queueId }
-  }
+    Key: { queueId },
+  };
 
   const res = await dynamo.get(params).promise();
   console.log(res);
-  
+
   const response = {
     statusCode: 200,
     headers: CORS_HEADERS,
-    body: {
+    body: JSON.stringify({
       message: "Success",
-      items: res.Item.songs
-    }
+      items: res.Item.songs,
+    }),
   };
   return response;
-}
+};
+
 /**
  * Remove a song from the queue
  * @param {*} event
@@ -182,7 +182,7 @@ export const vote = async (event) => {
     const response = {
       statusCode: 400,
       headers: CORS_HEADERS,
-      body: "songId missing in the request."
+      body: "songId missing in the request.",
     };
     return response;
   }
@@ -193,22 +193,21 @@ export const vote = async (event) => {
       body: "vote value missing in the request.",
     };
     return response;
-
   }
   const getQueueParam = {
     TableName: process.env.QUEUE_TABLE,
     Key: {
-      queueId: data.queueId
+      queueId: data.queueId,
     },
-    projectionExpression: "songs"
-  }
+    projectionExpression: "songs",
+  };
 
   const currentQueue = await dynamo.get(getQueueParam).promise();
   const newQueue = currentQueue.Item.songs;
   console.log(newQueue);
 
   for (var i = 0; i < newQueue.length; i++) {
-    if(newQueue[i].songId == data.songId) {
+    if (newQueue[i].songId == data.songId) {
       newQueue[i].votes = newQueue[i].votes + data.voteValue;
     }
   }
@@ -216,14 +215,14 @@ export const vote = async (event) => {
   const queueVotePatchParams = {
     TableName: process.env.QUEUE_TABLE,
     Key: {
-      queueId: data.queueId
+      queueId: data.queueId,
     },
     UpdateExpression: "SET songs = :r",
-    ExpressionAttributeValues:{
-        ":r":newQueue
+    ExpressionAttributeValues: {
+      ":r": newQueue,
     },
-    ReturnValues:"UPDATED_NEW"
-  }
+    ReturnValues: "UPDATED_NEW",
+  };
 
   const result = await dynamo.update(queueVotePatchParams).promise();
   console.log(result);

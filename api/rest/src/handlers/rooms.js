@@ -4,6 +4,7 @@ import { generateRandomString } from "../utils/id";
 import { createNewQueue } from "./queue";
 import { saveRoomToUser } from "./users";
 
+// TODO: Delete function 
 // TODO: Add number of users to rooms.js
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",

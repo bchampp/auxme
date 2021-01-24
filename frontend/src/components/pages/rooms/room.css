@@ -24,3 +24,9 @@
     margin: 0 auto !important;
     padding-bottom: 20px;
 }
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}

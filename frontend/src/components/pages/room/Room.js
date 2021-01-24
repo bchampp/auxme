@@ -5,11 +5,9 @@
 import { IconButton, TextField } from "@material-ui/core";
 import { API } from "aws-amplify";
 import React, { useEffect, useState } from "react";
-import { getWSService } from "../../../service/websocket";
 import SpotifyWebApi from "spotify-web-api-js";
 import SongCards from "./songs/SongCards";
 import QueuedSongCards from "./queue/QueuedSongCards";
-import { Auth } from "aws-amplify";
 import SpotifyPlayer from "react-spotify-web-playback";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -17,31 +15,41 @@ import './room.css';
 const spotifyApi = new SpotifyWebApi();
 
 export default function Room(props) {
+
+  // Room Constants
   const roomId = props.match.params.id;
   const sharingLink = `localhost:3000/room/${roomId}`;
-  const [queueId, setQueueId] = useState('');
-  const [userAdded, setUserAdded] = useState(false);
-  const [accessToken, setAccessToken] = useState("");
+
+  const [accessToken, setAccessToken] = useState(""); // Spotify Access Token
+
+  // Song searching
   const [searchTerm, setSearchTerm] = useState("");
-  const [queuedSongs, setQueuedSongs] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [socketConnection, setSocketConnection] = useState(null);
+
+  // Queue State
+  const [queueId, setQueueId] = useState("");
+  const [queuedSongs, setQueuedSongs] = useState([]);
+
+  // Room Info
   const [roomLoading, setRoomLoading] = useState(true);
   const [roomName, setRoomName] = useState("");
-
+  
   useEffect(() => {
-    async function postUser() {
-      const user = await Auth.currentUserInfo();
-      const userId = user.username;
-
-      API.patch("auxme", `/rooms/${roomId}`, {
-        body: {
-          userId,
-        },
-      }).then(() => setUserAdded(true));
+    let interval = setInterval(() => fetchQueueState(), 5000);
+    
+    async function fetchQueueState() {
+      const res = await API.get("auxme", `/queue/${queueId}`)
+      console.log(res);
+      const queueState = res.items;
+      const songs = [];
+      for (const song of queueState) {
+        const res = await spotifyApi.getTrack(song.songId);
+          songs.push({...res, votes: song.votes});
+        }
+      setQueuedSongs(songs);
     }
 
-    async function fetchData() {
+    async function fetchRoomData() {
       API.get("auxme", `/rooms/${roomId}`)
         .then((res) => {
           setQueueId(res.data.queueId);
@@ -54,21 +62,28 @@ export default function Room(props) {
         });
     }
 
-    if (userAdded === false) {
-      postUser();
+    fetchRoomData();
+
+    // Fetch Queue State if it doesn't exist
+    if (queueId !== "") {
+      fetchQueueState();
     }
 
-    setSocketConnection(getWSService());
-    const cookies = window.document.cookie.split(";");
-    for (const cookie of cookies) {
-      if (cookie.includes("access_token")) {
-        setAccessToken(cookie.split("=")[1]);
-        spotifyApi.setAccessToken(cookie.split("=")[1]);
+    // Fetch Spotify Access Token if it doesn't exist
+    if (accessToken === "") {
+      const cookies = window.document.cookie.split(";");
+      for (const cookie of cookies) {
+        if (cookie.includes("access_token")) {
+          setAccessToken(cookie.split("=")[1]);
+          spotifyApi.setAccessToken(cookie.split("=")[1]);
+        }
       }
     }
+
+    // Component unmounts, want to unsubscribe to the interval
+    return () => clearInterval(interval);
     // SpotifyWebApi.setAccessToken(accessToken);
-    fetchData();
-  }, [roomId, accessToken, socketConnection, userAdded]);
+  }, [roomId, accessToken, queueId]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -99,12 +114,12 @@ export default function Room(props) {
     const queue = [...queuedSongs];
     queue.push(chosenSong);
     setQueuedSongs(queue);
-    API.patch('auxme', '/queue/add', {
+    API.patch("auxme", "/queue/add", {
       body: {
-      queueId,
-      songId: value
-      }
-    })
+        queueId,
+        songId: value,
+      },
+    });
   };
 
   const handleVote = async (e, id, value) => {
@@ -112,13 +127,13 @@ export default function Room(props) {
       body: {
         queueId,
         songId: id,
-        voteValue: value
-      }
-    })
+        voteValue: value,
+      },
+    });
   };
 
   const copyToClipboard = () => {
-    const sharingText = document.getElementById('sharing-link');
+    const sharingText = document.getElementById("sharing-link");
     sharingText.select();
     sharingText.setSelectionRange(0, 99999);
     document.execCommand("copy");
@@ -144,7 +159,7 @@ export default function Room(props) {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={copyToClipboard}>
-                      <FileCopyIcon/>
+                      <FileCopyIcon />
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -186,7 +201,7 @@ export default function Room(props) {
               }}
             >
               <SpotifyPlayer
-                token="BQDX_n2_bFl49XqEYQ8wliYL8KU-AYXKDVKyv26Ec72lGxi6QBNeAIEP35hejX67Yo7sLQKrYNdqpZEZXEjxsCJzdqsOfyTENodpd75cqstGPkVheGJ2Hxo6Jmu6zNmbS71Xk7xqX-pYh42V5n0g5fGcU0gFN0LZA195qK4moJ0IRcJZ-jR2ZYhxWr46_lKcBX1jSqR9y26cD8I"
+                token={accessToken}
                 uris={["spotify:artist:6HQYnRM4OzToCYPpVBInuU"]}
                 styles={{ bgColor: "#C5C8C6", trackArtistColor: "black" }}
               />

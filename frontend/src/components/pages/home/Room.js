@@ -101,7 +101,24 @@ export default function Room() {
    * Handle user selecting join room
    * @param e
    */
-  const joinRoom = (e) => {
+  const joinRoom = async (e) => {
+    if (isAuthenticated) {
+      const user = await Auth.currentUserInfo();
+      const userId = user.username;
+
+      API.patch("auxme", "/rooms", {
+        body: {
+          roomId: roomCode,
+          userId,
+        }
+      }).then(res => {
+        console.log(res);
+        console.log("Succesfully joined room");
+      }).catch(err => {
+        console.log(err);
+        alert('Could not join room');
+      });
+    }
     history.push(`/room/${roomCode}`);
   };
   
