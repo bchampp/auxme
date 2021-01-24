@@ -118,14 +118,21 @@ export const get = async (event) => {
   }
 
   const queueId = event.pathParameters.id;
-  console.log(queueId);
+
+  const params = {
+    TableName: process.env.QUEUE_TABLE,
+    Key: { queueId }
+  }
+
+  const res = await dynamo.get(params).promise();
+  console.log(res);
   
   const response = {
     statusCode: 200,
     headers: CORS_HEADERS,
     body: {
       message: "Success",
-      data: []
+      items: res.Item.songs
     }
   };
   return response;
