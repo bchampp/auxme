@@ -47,11 +47,16 @@ export default function LogInDialogue({ open, handleClose }) {
         aria-labelledby="form-dialog-title"
       >
       <div className="signup-body">
-        <DialogTitle id="form-dialog-title" color="secondary">Log In</DialogTitle>
+        <DialogTitle id="form-dialog-title" color="secondary">
+          <div style={{color: "black", textAlign: "center"}}>
+            Login
+          </div>
+          </DialogTitle>
         <DialogContentText>
         Please enter your email and password.
       </DialogContentText>
-        <div className="Login">
+      <div style={{display: "flex", "justifyContent": "space-evenly"}}>
+        {/* <div className="Login"> */}
         <Form onSubmit={handleSubmit}>
           <Form.Group size="lg" controlId="email">
             <Form.Control
@@ -60,7 +65,7 @@ export default function LogInDialogue({ open, handleClose }) {
               type="email"
               value={fields.email}
               onChange={handleFieldChange}
-              className="input"
+              className="input-text"
             />
           </Form.Group>
           <Form.Group size="lg" controlId="password">
@@ -69,23 +74,24 @@ export default function LogInDialogue({ open, handleClose }) {
               type="password"
               value={fields.password}
               onChange={handleFieldChange}
-              className="input"
+              className="input-text"
+
             />
           </Form.Group>
-
-          <LoaderButton
-            block
-            size="lg"
-            type="submit"
-            isLoading={isLoading}
-            disabled={!validateForm()}
-          >
-            Log In
-          </LoaderButton>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-
+          <div style={{display: "flex", "justifyContent": "space-evenly"}}>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <LoaderButton
+              block
+              size="lg"
+              type="submit"
+              isLoading={isLoading}
+              disabled={!validateForm()}
+            >
+              Log In
+            </LoaderButton>
+          </div>
         </Form>
       </div>
       </div>

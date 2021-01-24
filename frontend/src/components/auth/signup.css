@@ -4,7 +4,8 @@
   height: 120%;
 }
 
-.input {
+.input-text {
+  color: black !important;
   width: 100%;
   margin-bottom: 10px;
   border-radius: 5px;

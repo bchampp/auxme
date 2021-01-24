@@ -81,8 +81,8 @@ export default function SignUpDialogue({ open, handleClose }) {
       API.post("auxme", "/users", {
         body: {
           userId: user.username,
-          nickname: fields.nickname
-        }
+          nickname: fields.nickname,
+        },
       });
 
       userHasAuthenticated(true);
@@ -101,47 +101,48 @@ export default function SignUpDialogue({ open, handleClose }) {
         // onClose={handleValidateDialogueClose}
         aria-labelledby="form-dialog-title"
       >
-      <div className="signup-body">
-        <DialogTitle id="form-dialog-title" color="secondary">
-          Sign Up.
-        </DialogTitle>
-        <DialogContentText>Please confirm your email.</DialogContentText>
-        <div className="Signup">
-          <Form onSubmit={handleConfirmationSubmit}>
-            <Form.Group controlId="confirmationCode" size="lg">
-              <Form.Label>Confirmation Code</Form.Label>
-              <Form.Control
-                autoFocus
-                type="tel"
-                onChange={handleFieldChange}
-                value={fields.confirmationCode}
-              />
-              <Form.Text muted>Check your email for the code!</Form.Text>
-            </Form.Group>
-            <LoaderButton
-              block
-              size="lg"
-              type="submit"
-              variant="success"
-              isLoading={isLoading}
-              disabled={!validateConfirmationForm()}
-            >
-              Verify
-            </LoaderButton>
-          </Form>
+        <div className="signup-body">
+          <DialogTitle id="form-dialog-title" color="secondary">
+            Sign Up.
+          </DialogTitle>
+          <DialogContentText>Please confirm your email.</DialogContentText>
+          <div className="Signup">
+            <Form onSubmit={handleConfirmationSubmit}>
+              <Form.Group controlId="confirmationCode" size="lg">
+                <Form.Label>Confirmation Code</Form.Label>
+                <Form.Control
+                  autoFocus
+                  type="tel"
+                  onChange={handleFieldChange}
+                  value={fields.confirmationCode}
+                  className="input"
+                />
+                <Form.Text muted>Check your email for the code!</Form.Text>
+              </Form.Group>
+              <LoaderButton
+                block
+                size="lg"
+                type="submit"
+                variant="success"
+                isLoading={isLoading}
+                disabled={!validateConfirmationForm()}
+              >
+                Verify
+              </LoaderButton>
+            </Form>
+          </div>
         </div>
-      </div>
       </Dialog>
     );
   }
 
   function renderForm() {
     return (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
         <div className="signup-body">
           <DialogTitle id="form-dialog-title" color="secondary">
             <div style={{ textAlign: "center", color: "black" }}>
@@ -157,11 +158,11 @@ export default function SignUpDialogue({ open, handleClose }) {
               {/* <Form.Label className="label">Nickname</Form.Label> */}
               <Form.Control
                 autoFocus
-                placeholder="Username"
+                placeholder="Nickname"
                 type="nickname"
                 value={fields.nickname}
                 onChange={handleFieldChange}
-                className="input"
+                className="input-text"
               />
             </Form.Group>
             <Form.Group controlId="email" size="lg">
@@ -171,7 +172,7 @@ export default function SignUpDialogue({ open, handleClose }) {
                 type="email"
                 value={fields.email}
                 onChange={handleFieldChange}
-                className="input"
+                className="input-text"
               />
             </Form.Group>
             <Form.Group controlId="password" size="lg">
@@ -181,19 +182,24 @@ export default function SignUpDialogue({ open, handleClose }) {
                 type="password"
                 value={fields.password}
                 onChange={handleFieldChange}
-                className="input"
+                className="input-text"
               />
             </Form.Group>
-            <Form.Group controlId="confirmPassword" size="lg" style={{'margin-bottom':'10px'}}>
+            <Form.Group
+              controlId="confirmPassword"
+              size="lg"
+              style={{ "margin-bottom": "10px" }}
+            >
               {/* <Form.Label className="label">Confirm Password</Form.Label> */}
               <Form.Control
                 placeholder="Confirm Password"
                 type="password"
                 onChange={handleFieldChange}
                 value={fields.confirmPassword}
-                className="input"
+                className="input-text"
               />
             </Form.Group>
+            <div style={{display: "flex", justifyContent: "center"}}>
             <LoaderButton
               block
               className="center"
@@ -205,9 +211,10 @@ export default function SignUpDialogue({ open, handleClose }) {
             >
               Signup
             </LoaderButton>
+            </div>
           </Form>
-          </div>
-        </Dialog>
+        </div>
+      </Dialog>
     );
   }
 
