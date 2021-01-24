@@ -49,6 +49,6 @@ Reflecting on this project, there are several next steps that we want to take to
 - [Zack Norman](https://github.com/zacknorman)
 
 ## Contributing 
-We'd love to continue building this platform, and invite other developers to contribute where they'd like to. Please see the [Contributing]('./CONTRIBUTING.md') file for details. 
+We'd love to continue building this platform, and invite other developers to contribute where they'd like to. Please see the [Contributing](./CONTRIBUTING.md) file for details. 
 ## License
-This project is licensed under the MIT license. See the [License]('./LICENSE') file for details. 
+This project is licensed under the MIT license. See the [License](./LICENSE) file for details. 
