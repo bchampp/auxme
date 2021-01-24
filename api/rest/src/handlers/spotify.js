@@ -8,7 +8,7 @@ const formurlencoded = require('form-urlencoded').default;
 const querystring = require('querystring');
 const client_id = "359de0c1b4284c0294a710c41c139bba";
 const client_secret = "815f0c15f85148c991ee55c006743590";
-const scope = 'user-read-private user-read-email user-modify-playback-state user-read-playback-state';
+const scope = 'streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state user-library-read user-library-modify';
 const redirect_uri = 'https://npzwmcjulf.execute-api.ca-central-1.amazonaws.com/dev/spotify/callback'
 const stateKey = 'spotify_auth_state';
 
@@ -141,6 +141,30 @@ export const callback = async (event, context, callback) => {
 
     const res = await post(authOptions, formData);
     console.log(res);
+    
+    const user = await Auth.currentUserInfo();
+    const userId = user.username;
+    
+    let data = {
+        
+    };
+    let userOptions = {
+        host: 'npzwmcjulf.execute-api.ca-central-1.amazonaws.com',
+        path: '/dev/user/spotify',
+        method: 'POST',
+        post: 443,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    
+    const req = await https.request(userOptions, (res) => {
+        console.log(`User/Spotify Status: ${res.statusCode}`);
+        
+        res.on('data', (d) => {
+            process.stdout.write(d);
+        });
+    });
 
     return callback(null, {
         statusCode: 301,

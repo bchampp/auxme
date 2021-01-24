@@ -1,8 +1,0 @@
-{
-    "body": "{\"roomName\":\"Brents Test Room\"}",
-    "requestContext": {
-      "identity": {
-        "cognitoIdentityId": "USER-SUB-1234"
-      }
-    }
-  }

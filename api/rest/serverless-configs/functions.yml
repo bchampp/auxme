@@ -12,7 +12,7 @@ getUser:
   description: "Get user information"
   events:
     - http:
-        path: 'users'
+        path: 'users/{id}'
         method: get
         cors: true
 updateUser:
@@ -22,6 +22,14 @@ updateUser:
     - http:
         path: 'users'
         method: patch
+        cors: true
+setUserTokens:
+  handler: 'src/handlers/users.setUserTokens'
+  description: "Saves a users spotify token"
+  events:
+    - http:
+        path: 'users/spotify'
+        method: post
         cors: true
 deleteUser:
   handler: 'src/handlers/users.deleteUser'
@@ -46,7 +54,7 @@ joinRoom:
   description: "Join an existing room"
   events:
     - http:
-        path: 'rooms/{id}'
+        path: 'rooms'
         method: patch
         cors: true
 getRooms:
@@ -54,7 +62,7 @@ getRooms:
   description: "Get all rooms associated with a user"
   events:
     - http:
-        path: 'rooms'
+        path: 'rooms/all/{id}'
         method: get
         cors: true
 getRoom:
