@@ -18,7 +18,7 @@ export default function Room(props) {
 
   // Room Constants
   const roomId = props.match.params.id;
-  const sharingLink = `localhost:3000/room/${roomId}`;
+  const sharingLink = `https://auxme.ca/room/${roomId}`;
 
   const [accessToken, setAccessToken] = useState(""); // Spotify Access Token
 

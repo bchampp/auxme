@@ -186,7 +186,7 @@ export const callback = async (event, context, callback) => {
         statusCode: 301,
         multiValueHeaders: {"Set-Cookie": [`access_token=${res.access_token}`, `refresh_token=${res.refresh_token}`]},
         headers: {
-            Location: 'http://localhost:3000',
+            Location: 'https://auxme.ca',
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Credentials": true
         }
