@@ -23,14 +23,6 @@ updateUser:
         path: 'users'
         method: patch
         cors: true
-setUserTokens:
-  handler: 'src/handlers/users.setUserTokens'
-  description: "Saves a users spotify token"
-  events:
-    - http:
-        path: 'users/spotify'
-        method: post
-        cors: true
 deleteUser:
   handler: 'src/handlers/users.deleteUser'
   description: "Delete an existing user"
@@ -38,6 +30,14 @@ deleteUser:
     - http:
         path: 'users'
         method: delete
+        cors: true
+setUserTokens:
+  handler: 'src/handlers/users.setUserTokens'
+  description: "Saves a users spotify token"
+  events:
+    - http:
+        path: 'users/spotify'
+        method: post
         cors: true
 
 # Rooms
@@ -83,7 +83,7 @@ deleteRoom:
         cors: true
 
 # Queues
-add:
+addToQueue:
   handler: 'src/handlers/queue.add'
   description: "Adds a new song to the queue"
   events:
@@ -91,7 +91,7 @@ add:
         path: 'queue/add'
         method: patch
         cors: true
-remove: 
+removeFromQueue: 
   handler: 'src/handlers/queue.remove'
   description: "Removes a song from the queue"
   events:
@@ -99,7 +99,7 @@ remove:
         path: 'queue/remove'
         method: patch
         cors: true
-vote:
+voteSong:
   handler: 'src/handlers/queue.vote'
   description: "Handles voting for a song"
   events:
@@ -107,8 +107,7 @@ vote:
         path: 'queue/vote'
         method: patch
         cors: true
-
-get:
+getQueue:
   handler: 'src/handlers/queue.get'
   description: "Fetches current queue state"
   events:

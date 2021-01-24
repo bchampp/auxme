@@ -1,0 +1,51 @@
+-------- Users --------
+serverless invoke local --function createUser --path mocks/users/create/success.json
+serverless invoke local --function createUser --path mocks/users/create/fail.json
+
+serverless invoke local --function getUser --path mocks/users/get/success.json
+serverless invoke local --function getUser --path mocks/users/get/fail.json
+
+serverless invoke local --function updateUser --path mocks/users/update/success.json
+serverless invoke local --function updateUser --path mocks/users/update/fail.json
+
+serverless invoke local --function deleteUser --path mocks/users/delete/success.json
+serverless invoke local --function deleteUser --path mocks/users/delete/fail.json
+
+
+-------- Rooms --------
+serverless invoke local --function createRoom --path mocks/rooms/create/success.json
+serverless invoke local --function createRoom --path mocks/rooms/create/fail-roomName.json
+serverless invoke local --function createRoom --path mocks/rooms/create/fail-userId.json
+
+serverless invoke local --function joinRoom --path mocks/rooms/join/success.json
+serverless invoke local --function joinRoom --path mocks/rooms/join/fail.json
+
+serverless invoke local --function getRooms --path mocks/rooms/getAll/success.json
+serverless invoke local --function getRooms --path mocks/rooms/getAll/fail.json
+
+serverless invoke local --function getRoom --path mocks/rooms/get/success.json
+serverless invoke local --function getRoom --path mocks/rooms/get/fail.json
+
+serverless invoke local --function deleteRoom --path mocks/rooms/delete/success.json
+serverless invoke local --function deleteRoom --path mocks/rooms/delete/fail.json
+
+-------- Queues --------
+serverless invoke local --function addToQueue --path mocks/queue/add/success.json
+serverless invoke local --function addToQueue --path mocks/queue/add/fail.json
+
+serverless invoke local --function removeFromQueue --path mocks/queue/remove/success.json
+serverless invoke local --function removeFromQueue --path mocks/queue/remove/fail.json
+
+serverless invoke local --function voteSong --path mocks/queue/vote/success.json
+serverless invoke local --function voteSong --path mocks/queue/vote/fail.json
+
+serverless invoke local --function getQueue --path mocks/queue/get/success.json
+serverless invoke local --function getQueue --path mocks/queue/get/fail.json
+
+
+
+
+
+
+
+
