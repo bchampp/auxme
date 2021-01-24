@@ -158,8 +158,8 @@ export const callback = async (event, context, callback) => {
     console.log(authOptions);
     console.log("Sending request");
 
-    // const res = await post(authOptions, formData);
-    // console.log(res);
+    const res = await post(authOptions, formData);
+    console.log(res);
     
     // const user = await Auth.currentUserInfo();
     // const userId = user.username;
@@ -171,7 +171,7 @@ export const callback = async (event, context, callback) => {
     // let userOptions = {
     //     host: 'npzwmcjulf.execute-api.ca-central-1.amazonaws.com',
     //     path: '/dev/user/spotify',
-    //     method: 'POST',
+    //     method: 'POST',`
     //     post: 443,
     //     headers: {
     //         'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import React from 'react';
 
 const LayoutDefault = ({ children }) => (
   <>
-    <main style={{height: "100vh"}} className="site-content">
+    <main className="site-content">
       {children}
     </main>
     {/* <Footer /> */}
