@@ -13,8 +13,12 @@ export default function SongCard({ song, handleQueue }) {
             <div className="song-artist">{song.artists[0].name}</div>
             <div className="song-album">{song.album.name}</div>
           </div> */}
-          <Button className="queue-song-button" variant="contained" onClick={e => handleQueue(e, song.id)}>
-            Queue song!
+          <Button
+            className="queue-song-button"
+            variant="outlined"
+            color="secondary"
+            onClick={e => handleQueue(e, song.id)}>
+            QUEUE SONG
           </Button>
         </div>
       </div>

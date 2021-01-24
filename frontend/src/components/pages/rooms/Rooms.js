@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+const rooms = [];
+export default function Rooms() {
+    const [roomList, setroomList] = useState([]);
 
-export default function Rooms(){
     return (
     <div className="hero section center-content illustration-section-01">
         Rooms Page
