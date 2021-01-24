@@ -12,7 +12,11 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { API } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CloseIcon from '@material-ui/icons/Close';
+import { useAppContext } from "../../../libs/contextLib";
 
 const ROOM_CODE_LENGTH = 5;
 
@@ -40,10 +44,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Room() {
   const classes = useStyles();
   const history = useHistory();
+  const { isAuthenticated } = useAppContext();
 
   const [roomCode, setRoomCode] = useState(""); // Room code state
+  const [roomLoading, setRoomLoading] = useState(false);
   const [joinRoomDisabled, setJoinRoomDisabled] = useState(true); // Ensure valid code
-
+  const [roomError, setRoomError] = useState(false);
   const [newRoomDialogOpen, setNewRoomDialogOpen] = useState(false);
 
   const handleNewRoomOpen = () => {
@@ -55,59 +61,80 @@ export default function Room() {
   };
 
   useEffect(() => {
-  }, [])
+    async function validateRoomExists() {
+      await API.get("auxme", `/rooms/${roomCode}`, {
+        body: {
+          pathParameters: {
+            id: roomCode,
+          },
+        },
+      }).then((res) => { // Room exists!
+        setRoomLoading(false);
+        setJoinRoomDisabled(false);
+      }).catch((err) => {
+        console.log("Something went wrong!", err);
+        setRoomError(true);
+        setRoomLoading(false);
+      });
+    }
+
+    if (roomCode.length === ROOM_CODE_LENGTH ) { // room code is full length, does the room exist?
+      setRoomLoading(true);
+      validateRoomExists();
+    } else if (roomCode.length > 0) {
+      setRoomError(false);
+      setJoinRoomDisabled(true);
+    } else {
+      setRoomError(false);
+    }
+
+  }, [roomCode]);
 
   /**
    * Handle user text input for room codes
    */
-  const handleChange = (e) => {
-    // TODO: Add logic such that no more than 5 characters inputted and checkmark when full
-    if (roomCode.length >= ROOM_CODE_LENGTH - 1) {
-      // TODO: Validate that the room code is valid in the DB
-      setJoinRoomDisabled(false);
-    } else {
-      setJoinRoomDisabled(true);
-    }
+  const handleChange = async (e) => {
     setRoomCode(e.target.value);
   };
-
-
-
 
   /**
    * Handle user selecting join room
    * @param e
    */
   const joinRoom = (e) => {
-    const username = window.localStorage.getItem("user");
-    API.patch("auxme", "/users", {
-      body: {
-        roomName: roomCode,
-        // TODO: This should be fetched for the authenticated user
-        userId: username,
-      },
-    }).then(res => {
-      console.log(res);
-      // handleClose();
-      
-      history.push(`/room/asdf`);
-    }).catch(err => {
-      console.log(err);
-      alert("Error creating room!");
-    })
-
     history.push(`/room/${roomCode}`);
   };
+  
+  const keyPress = (e) => {
+    if (e.keyCode === 13) {
+      joinRoom();
+    }
+  }
 
   return (
-    <div style={{textAlign: "center"}}>
+    <div style={{ textAlign: "center" }}>
       <Paper component="form" className={classes.root}>
         <InputBase
           className={classes.input}
-          placeholder="Enter Room Code"
+          placeholder="Enter an Room Code"
           onChange={handleChange}
           value={roomCode}
+          inputProps={{maxLength: 5}}
+          onKeyDown={keyPress}
         />
+        {
+          (roomLoading === true &&
+            <CircularProgress />
+          )
+        }
+        {
+          joinRoomDisabled === false &&
+          <CheckCircleIcon />
+        }
+        {
+          roomError && 
+          <CloseIcon />
+        }
         <Divider className={classes.divider} orientation="vertical" />
         <IconButton
           disabled={joinRoomDisabled}
@@ -119,15 +146,25 @@ export default function Room() {
           <ArrowForwardIosIcon />
         </IconButton>
       </Paper>
-      <div style={{padding: "50px"}}>
-        <Button variant="contained" color="primary" onClick={handleNewRoomOpen}>
-          Create New Room
-        </Button>
-      </div>
-      <NewRoomDialog
-        open={newRoomDialogOpen}
-        handleClose={handleNewRoomClose}
-      />
+      {
+          roomError && 
+          <div style={{"color": "red"}}>Please enter a valid room code.</div>
+        }
+      
+      { isAuthenticated === true ? (
+        <div>
+          <div style={{ padding: "50px" }}>
+            <Button variant="contained" color="primary" onClick={handleNewRoomOpen}>
+              Create New Room
+            </Button>
+          </div>
+          <NewRoomDialog
+            open={newRoomDialogOpen}
+            handleClose={handleNewRoomClose}
+          />
+        </div>
+        ) : (<></>)
+      }
     </div>
   );
 }
@@ -135,62 +172,74 @@ export default function Room() {
 function NewRoomDialog({ open, handleClose }) {
   const history = useHistory();
   const [roomName, setRoomName] = useState("");
+  const { isAuthenticated } = useAppContext();
 
-  const createRoom = () => {
 
+  const createRoom = async () => {
+    const user = await Auth.currentUserInfo();
+    const userId = user.username;
+    console.log(userId);
     API.post("auxme", "/rooms", {
       body: {
         roomName,
-        // TODO: This should be fetched for the authenticated user
-        userId: "123",
+        userId,
       },
-    }).then(res => {
-      handleClose();
-      history.push(`/room/${res.roomCode}`);
-    }).catch(err => {
-      console.log(err);
-      alert("Error creating room!");
-    })
+    }
+    )
+      .then((res) => {
+        handleClose();
+        history.push(`/room/${res.roomCode}`);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Error creating room!");
+      });
+    handleClose();
   };
-
-
 
   const handleChange = (e) => {
     setRoomName(e.target.value);
   };
 
-    // TODO: Display "join room" text box to unauthenticated users
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-    >
-      {/* TODO: Fix title color */}
-      <DialogTitle id="form-dialog-title" color="secondary">Create a new music room!</DialogTitle>
-      <DialogContent>
-        {/* <DialogContentText>
-      Enter a room name to create a new room!
-    </DialogContentText> */}
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Room Name"
-          type="name"
-          value={roomName}
-          onChange={handleChange}
-          fullWidth
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={createRoom} color="primary">
-          Create Room!
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <>
+    { isAuthenticated === false ? (
+      <Room />
+    ) : (
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        {/* TODO: Fix title color */}
+        <DialogTitle id="form-dialog-title" color="secondary">
+          <div style={{color: "black"}}>Create a new music room!</div>
+        </DialogTitle>
+        <DialogContent>
+          {/* <DialogContentText>
+        Enter a room name to create a new room!
+      </DialogContentText> */}
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Room Name"
+            type="name"
+            value={roomName}
+            onChange={handleChange}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions style={{display: "flex", "justifyContent": "center"}}> 
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={createRoom} color="primary">
+            Create Room!
+          </Button>
+        </DialogActions>
+      </Dialog>
+    )}
+    </>
   );
 }

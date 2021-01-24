@@ -15,6 +15,7 @@ import Rooms from './components/pages/rooms/Rooms';
 import NotFound from './components/pages/NotFound';
 import Profile from "./components/pages/profile/Profile";
 import { useAppContext } from "./libs/contextLib";
+import Header from "./components/layout/Header";
 
 const Routes = ({ location }) => {
     const { isAuthenticated } = useAppContext();
@@ -22,6 +23,8 @@ const Routes = ({ location }) => {
     if (isAuthenticated === true) {
     return (
         <div>
+    <Header navPosition="right" className="reveal-from-bottom" />
+
             {/* TODO: Add an isAuthenticated check here for protected routes! */}
             {/* Move NavBar and Footer to be global (not included in router switch) */}
             <Switch>
@@ -39,6 +42,8 @@ const Routes = ({ location }) => {
     } else {
         return (
             <div>
+    <Header navPosition="right" className="reveal-from-bottom" />
+
                 {/* TODO: Add an isAuthenticated check here for protected routes! */}
                 {/* Move NavBar and Footer to be global (not included in router switch) */}
                 <Switch>

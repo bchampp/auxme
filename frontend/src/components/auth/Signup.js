@@ -9,6 +9,7 @@ import LoaderButton from "../elements/LoaderButton";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAppContext } from "../../libs/contextLib";
+import "./signup.css";
 
 export default function SignUpDialogue({ open, handleClose }) {
   const [fields, handleFieldChange] = useFormFields({
@@ -100,6 +101,7 @@ export default function SignUpDialogue({ open, handleClose }) {
         // onClose={handleValidateDialogueClose}
         aria-labelledby="form-dialog-title"
       >
+      <div className="signup-body">
         <DialogTitle id="form-dialog-title" color="secondary">
           Sign Up.
         </DialogTitle>
@@ -128,73 +130,84 @@ export default function SignUpDialogue({ open, handleClose }) {
             </LoaderButton>
           </Form>
         </div>
+      </div>
       </Dialog>
     );
   }
 
   function renderForm() {
     return (
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title" color="secondary">
-          <div style={{ textAlign: "center", color: "black" }}>
-            Welcome to AuxMe!
-          </div>
-        </DialogTitle>
-        <DialogContentText>
-          Please enter a valid username, email and password.
-        </DialogContentText>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+        <div className="signup-body">
+          <DialogTitle id="form-dialog-title" color="secondary">
+            <div style={{ textAlign: "center", color: "black" }}>
+              Welcome to AuxMe!
+            </div>
+          </DialogTitle>
+          <DialogContentText>
+            Please enter a valid username, email and password.
+          </DialogContentText>
 
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="nickname" size="lg">
-            <Form.Label>Nickname</Form.Label>
-            <Form.Control
-              autoFocus
-              type="nickname"
-              value={fields.nickname}
-              onChange={handleFieldChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="email" size="lg">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              autoFocus
-              type="email"
-              value={fields.email}
-              onChange={handleFieldChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="password" size="lg">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              value={fields.password}
-              onChange={handleFieldChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="confirmPassword" size="lg">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              onChange={handleFieldChange}
-              value={fields.confirmPassword}
-            />
-          </Form.Group>
-          <LoaderButton
-            block
-            size="lg"
-            type="submit"
-            variant="success"
-            isLoading={isLoading}
-            disabled={!validateForm()}
-          >
-            Signup
-          </LoaderButton>
-        </Form>
-      </Dialog>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="nickname" size="lg">
+              {/* <Form.Label className="label">Nickname</Form.Label> */}
+              <Form.Control
+                autoFocus
+                placeholder="Username"
+                type="nickname"
+                value={fields.nickname}
+                onChange={handleFieldChange}
+                className="input"
+              />
+            </Form.Group>
+            <Form.Group controlId="email" size="lg">
+              {/* <Form.Label className="label">Email</Form.Label> */}
+              <Form.Control
+                placeholder="Email"
+                type="email"
+                value={fields.email}
+                onChange={handleFieldChange}
+                className="input"
+              />
+            </Form.Group>
+            <Form.Group controlId="password" size="lg">
+              {/* <Form.Label className="label">Password</Form.Label> */}
+              <Form.Control
+                placeholder="Password"
+                type="password"
+                value={fields.password}
+                onChange={handleFieldChange}
+                className="input"
+              />
+            </Form.Group>
+            <Form.Group controlId="confirmPassword" size="lg" style={{'margin-bottom':'10px'}}>
+              {/* <Form.Label className="label">Confirm Password</Form.Label> */}
+              <Form.Control
+                placeholder="Confirm Password"
+                type="password"
+                onChange={handleFieldChange}
+                value={fields.confirmPassword}
+                className="input"
+              />
+            </Form.Group>
+            <LoaderButton
+              block
+              className="center"
+              size="lg"
+              type="submit"
+              variant="success"
+              isLoading={isLoading}
+              disabled={!validateForm()}
+            >
+              Signup
+            </LoaderButton>
+          </Form>
+          </div>
+        </Dialog>
     );
   }
 

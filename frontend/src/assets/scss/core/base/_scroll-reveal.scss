@@ -3,7 +3,7 @@
 	.has-animations {
 
 		[class*=reveal-] {
-			opacity: 0;
+			opacity: 1;
 			will-change: opacity, transform;
 		}
 
@@ -40,13 +40,12 @@
 		}
 
 		&.is-loaded {
-
+			// TODO: Make transition delay
 			[class*=reveal-] {
 				transition: opacity $scroll-reveal--transition-duration $scroll-reveal--transition-timing, transform $scroll-reveal--transition-duration $scroll-reveal--transition-timing;
-
+				transform: translate(0);
 				&.is-revealed {
 					opacity: 1;
-					transform: translate(0);
 				}
 			}
 		}

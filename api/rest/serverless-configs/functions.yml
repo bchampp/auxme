@@ -108,6 +108,15 @@ vote:
         method: patch
         cors: true
 
+get:
+  handler: 'src/handlers/queue.get'
+  description: "Fetches current queue state"
+  events:
+    - http:
+        path: 'queue/{id}'
+        method: get
+        cors: true
+
 # Spotify
 spotifyLogin:
   handler: 'src/handlers/spotify.login'

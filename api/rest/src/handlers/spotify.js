@@ -114,6 +114,25 @@ export const callback = async (event, context, callback) => {
         // payload.pipe(req);
         req.end();
     });
+    
+    const post2 = (options, payload) => new Promise((resolve, reject) => {
+        const req = https.request(userOptions, (res) => {
+            let buffer = "";
+            res.on('data', (d) => {
+                buffer += d;
+            });
+            res.on('end', () => resolve(JSON.parse(buffer)));
+        });
+        
+        req.on('error', (err) => {
+            console.log('Something went wrong!', err);
+        });
+        req.on('response', (res) => {
+            console.log(res.statusCode);
+        });
+        req.write(payload);
+        req.end();
+    });
 
     let code = event.queryStringParameters.code || null;
     let state = event.queryStringParameters.state || null;
@@ -145,26 +164,23 @@ export const callback = async (event, context, callback) => {
     const user = await Auth.currentUserInfo();
     const userId = user.username;
     
-    let data = {
-        
-    };
+    let data = JSON.stringify({
+        userId: userId,
+        refresh_token: res.refresh_token
+    });
     let userOptions = {
         host: 'npzwmcjulf.execute-api.ca-central-1.amazonaws.com',
         path: '/dev/user/spotify',
         method: 'POST',
         post: 443,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Content-Length': data.length
         }
     };
-    
-    const req = await https.request(userOptions, (res) => {
-        console.log(`User/Spotify Status: ${res.statusCode}`);
-        
-        res.on('data', (d) => {
-            process.stdout.write(d);
-        });
-    });
+    const res2 = await post2(userOptions, data);
+    console.log("res2");
+    console.log(res2);
 
     return callback(null, {
         statusCode: 301,

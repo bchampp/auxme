@@ -5,12 +5,12 @@ import Hero from "./Hero";
 import Room from "./Room";
 import { useAppContext } from "../../../libs/contextLib";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import SignUpDialogue from "../../auth/Signup";
 
 const Home = () => {
   const { isAuthenticated } = useAppContext();
-  const history = useHistory();
+  // const history = useHistory();
 
   const [signUpDialogueOpen, setSignUpDialogueOpen] = useState(false);
   // const handleSignUpDialogueOpen = () => {
@@ -24,13 +24,15 @@ const Home = () => {
   return (
     <>
       <Hero className="illustration-section-01" />
-      {/* TODO: Enter Room Code Here */}
-
-      {isAuthenticated === true ? (
-        <Room />
-      ) : (
+      
+      { isAuthenticated === true ? (
+          <Room />
+        ) : (
         <div style={{ textAlign: "center" }}>
-          <p>Sign up to get started!</p>
+          <p>Enter a room code to get started!</p>
+          <Room />
+          <br />
+          <p>OR</p>
           <Button
             variant="contained"
             color="primary"

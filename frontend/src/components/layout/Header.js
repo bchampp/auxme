@@ -1,11 +1,11 @@
-// TODO: Add Authenticated routes here for conditional rendering
+
 
 import React, { useState, useRef, useEffect } from 'react';
 import Button from "@material-ui/core/Button";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import Logo from './partials/Logo';
+// import Logo from './partials/Logo';
 import { useAppContext } from "../../libs/contextLib";
 import LogInDialogue from '../auth/Login';
 
@@ -100,7 +100,9 @@ const Header = ({
             'site-header-inner',
             bottomDivider && 'has-bottom-divider'
           )}>
-          <Logo />
+            <h3 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
+              <Link to="/">Aux<span className="text-color-primary">Me</span></Link>
+            </h3>
           {!hideNav &&
             <>
               <button
@@ -146,7 +148,6 @@ const Header = ({
                       className="list-reset text-xs header-nav-right"
                     >
                       <li>
-                        {/* TODO: Integrate this with Authentication flow */}
                         { isAuthenticated === true ? (
                         <Link to="/profile" onClick={closeMenu}>Profile</Link>
                         ) : (

@@ -1,29 +1,29 @@
-li {
-    list-style-type: none;
-    flex-direction: column;
-    padding: 10px 0;
-    justify-content: flex-start;
+.song-list {
+    padding: 10px;
 }
 
 .song-card {
     display: flex;
-    height: 100px;
-
+    height: 120px;
     justify-content: space-between;
+    margin: 0;
+    width: 100%;
+    margin-bottom: 20px !important;
 }
 
 img {
     margin-left: 0 !important;
-    margin-right: 20px !important;
+    margin-right: 0px !important;
     height:100px;
-    width:100px;
+    width: auto;
 }
 
 .song-info-container {
     width: 100%;
     display: flex;
-    flex-flow: column wrap;
-    justify-content: flex-start;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    padding-bottom: 10px;
 }
 
 .song-about-container {
@@ -33,7 +33,9 @@ img {
 
 .song-title {
     margin: 0 !important;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    width: 100%;
 }
 
 .song-artist {
@@ -45,9 +47,10 @@ img {
 }
 
 .queue-song-button {
-    width:100px;
-    height:100px;
     border-width: 10px;
+    text-align: center;
+    padding: 0 15px !important;
+    line-height: 0.5 !important;
 }
 .queue-song-button:hover {
     border-color: #2D2C54;

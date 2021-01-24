@@ -1,48 +1,52 @@
+import { API } from "aws-amplify";
 import React, { useEffect, useState } from "react";
 import RoomCards from "./RoomCards";
-
-const fake_data = [
-  {
-    roomId: "12345",
-    name: "Queen's Friends",
-    numUsers: 10,
-    isAdmin: true,
-  },
-  {
-    roomId: "12345",
-    name: "QHacks friends",
-    numUsers: 3,
-    isAdmin: false,
-  },
-  {
-    roomId: "12345",
-    name: "Another test room",
-    numUsers: 1,
-    isAdmin: false,
-  },
-];
+import { Auth } from "aws-amplify";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export default function Rooms() {
+  const [loadingRooms, setLoadingRooms] = useState(true);
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      // TODO: Integrate with API for getRooms()
-      setRooms(fake_data);
+      const user = await Auth.currentUserInfo();
+      const userId = user.username;
+
+      await API.get("auxme", `/rooms/all/${userId}`)
+        .then((res) => {
+          const roomsInfo = res.items;
+          setRooms(roomsInfo);
+          setLoadingRooms(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     fetchData();
   }, []);
+
   return (
     <div className="hero section center-content illustration-section-01">
       <h3>My Rooms</h3>
-      <ul>
-        {rooms.length > 0 &&
-          rooms.map((room) => (
-            <li>
-              <RoomCards room={room} />
-            </li>
-          ))}
-      </ul>
+      {loadingRooms === true ? (
+        <CircularProgress />
+      ) : (
+        <ul className="rooms-list">
+          {rooms.length > 0 ? (
+            rooms.map((room) => (
+              <li className="room-cards" key={room.id}>
+                <RoomCards room={room} />
+              </li>
+            ))) : (
+              <div>
+                <h5>No rooms to show</h5>
+                <h5>Make one and get partying!</h5>
+              </div>
+            )
+          }
+        </ul>
+      )}
     </div>
   );
 }

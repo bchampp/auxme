@@ -47,19 +47,16 @@ const Hero = ({
       <div className="container-sm">
         <div className={innerClasses}>
           <div className="hero-content">
-            <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-              Aux<span className="text-color-primary">Me</span>
-            </h1>
             <div className="container-xs">
-              <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
+              <div className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
                 {
                   isAuthenticated ? (
-                    <>Welcome back!</>
+                    <h3>Welcome back!</h3>
                   ) : (
                 <>Join a music room, collaborate on the queue and vote on songs</>
                   )
                 }
-                </p>
+                </div>
             </div>
           </div>
         </div>

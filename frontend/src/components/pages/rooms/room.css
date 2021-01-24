@@ -1,11 +1,13 @@
-ul {
+.rooms-list {
+    list-style-type: none;
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
-li {
-    margin: auto;
+.room-cards {
+    list-style: none;
+    padding: 2%;
 }
 
 .room-card {

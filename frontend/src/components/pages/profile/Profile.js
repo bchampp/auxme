@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
+import { API } from "aws-amplify";
 import { useAppContext } from "../../../libs/contextLib";
 import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
@@ -8,23 +9,29 @@ import "./profile.css";
 const fake_avatar =
   "https://www.nj.com/resizer/h8MrN0-Nw5dB5FOmMVGMmfVKFJo=/450x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/SJGKVE5UNVESVCW7BBOHKQCZVE.jpg";
 
-  export default function Profile() {
-    const { userHasAuthenticated } = useAppContext();
-    const history = useHistory();
+export default function Profile() {
+  const { userHasAuthenticated } = useAppContext();
+  const history = useHistory();
 
-    const [avatorSrc, setAvatarSrc] = useState('');
-    const [nickname, setNickName] = useState('');
-    const [numRooms, setNumRooms] = useState(0);
+  const [avatorSrc, setAvatarSrc] = useState("");
+  const [nickname, setNickName] = useState("");
+  const [numRooms, setNumRooms] = useState(0);
 
-    useEffect(() => {
-        async function fetchData() {
-            // TODO: Call users api
-            setAvatarSrc(fake_avatar);
-            setNickName("bchampp");
-            setNumRooms(5);
-        }
-        fetchData();
-    }, []);
+  useEffect(() => {
+    async function getUserInfo() {
+      const user = await Auth.currentUserInfo();
+      const userId = user.username;
+
+      API.get("auxme", `/users/${userId}`)
+        .then(res => {
+          setAvatarSrc(fake_avatar);
+          setNumRooms(res.data.numRooms);
+          setNickName(res.data.nickname);
+        })
+        .catch((err) => console.log("Something went wrong!", err));
+    }
+    getUserInfo();
+  }, []);
 
   async function handleLogout() {
     await Auth.signOut();
@@ -48,19 +55,18 @@ const fake_avatar =
 
       <br style={{ padding: "20px", height: "10px" }}></br>
       <div className="profile-button">
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleSpotifyLogin()}
-      >
-        Connect spotify account!
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleSpotifyLogin()}
+        >
+          Connect spotify account!
+        </Button>
       </div>
       <div className="profile-button">
-      
-      <Button variant="contained" color="primary" onClick={handleLogout}>
-        Log Out
-      </Button>
+        <Button variant="contained" color="primary" onClick={handleLogout}>
+          Log Out
+        </Button>
       </div>
     </div>
   );

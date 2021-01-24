@@ -1,26 +1,24 @@
 import { Button } from "@material-ui/core";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./room.css";
 
 export default function RoomCards({ room }) {
-  const history = useHistory();
-
-  const joinRoom = () => {
-    history.push(`/room/${room.roomId}`);
-  };
+  // const history = useHistory();
 
   const deleteRoom = () => {
-      console.log("Deleting room!");
     //   TODO: Call API
   };
 
+  if (room) {
   return (
     <div className="room-card">
       <h5 className="room-name">{room.name}</h5>
       <p>Users: {room.numUsers}</p>
-      <Button variant="contained" color="primary" onClick={joinRoom}>
+      <Button variant="contained" color="primary">
+        <Link to={`/room/${room.roomId}`}>
         Join Room!
+        </Link>
       </Button>
       <br></br>
       {room.isAdmin === true && (
@@ -30,4 +28,7 @@ export default function RoomCards({ room }) {
       )}
     </div>
   );
+      } else {
+        return (<div></div>)
+      }
 }

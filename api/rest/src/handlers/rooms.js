@@ -51,7 +51,7 @@ export const createRoom = async (event) => {
 
   const roomId = generateRandomString(5);
   const queueId = await createNewQueue(roomId); // Generate new queue in table
-  saveRoomToUser(roomId, data.userId);
+  await saveRoomToUser(roomId, data.userId);
   console.log(queueId);
   // TODO: Should update rooms in user table
   const admins = [];

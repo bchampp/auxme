@@ -244,7 +244,7 @@ export const saveRoomToUser = async (roomId, userId) => {
         return response;
       }
     }
-    console.log("caught");
+    console.log(newRoomList);
 
     newRoomList.push(roomId);
     const patchTableParam = {
