@@ -1,38 +1,117 @@
+# Users
+createUser:
+  handler: 'src/handlers/users.createUser'
+  description: "Create a new user"
+  events:
+    - http:
+        path: 'users'
+        method: post
+        cors: true
+getUser:
+  handler: 'src/handlers/users.getUser'
+  description: "Get user information"
+  events:
+    - http:
+        path: 'users'
+        method: get
+        cors: true
+updateUser:
+  handler: 'src/handlers/users.updateUser'
+  description: "Update an existing user"
+  events:
+    - http:
+        path: 'users'
+        method: patch
+        cors: true
+deleteUser:
+  handler: 'src/handlers/users.deleteUser'
+  description: "Delete an existing user"
+  events:
+    - http:
+        path: 'users'
+        method: patch
+        cors: true
+
 # Rooms
 createRoom:
   handler: 'src/handlers/rooms.createRoom'
   description: "Create a new room"
   events:
     - http:
-        path: 'rooms/create'
+        path: 'rooms'
         method: post
         cors: true
-        # authorizer: aws_iam
-
+joinRoom:
+  handler: 'src/handlers/rooms.joinRoom'
+  description: "Join an existing room"
+  events:
+    - http:
+        path: 'rooms/{id}'
+        method: patch
+        cors: true
+getRooms:
+  handler: 'src/handlers/rooms.getRooms'
+  description: "Get all rooms associated with a user"
+  events:
+    - http:
+        path: 'rooms'
+        method: get
+        cors: true
 getRoom:
   handler: 'src/handlers/rooms.getRoom'
   description: "Get a rooms information"
   events:
     - http:
-        path: 'rooms/get/{id}'
+        path: 'rooms/{id}'
         method: get
         cors: true
-        # authorizer: aws_iam
+deleteRoom: 
+  handler: 'src/handlers/rooms.deleteRoom'
+  description: "Delete an existing room"
+  events: 
+    - http:
+        path: 'rooms/{id}'
+        method: delete
+        cors: true
 
+# Queues
+add:
+  handler: 'src/handlers/queue.add'
+  description: "Adds a new song to the queue"
+  events:
+    - http:
+        path: 'queue'
+        method: patch
+        cors: true
+remove: 
+  handler: 'src/handlers/queue.remove'
+  description: "Removes a song from the queue"
+  events:
+    - http:
+        path: 'queue'
+        method: patch
+        cors: true
+vote:
+  handler: 'src/handlers/queue.vote'
+  description: "Handles voting for a song"
+  events:
+    - http:
+        path: 'queue'
+        method: patch
+        cors: true
 
 # Spotify
-spotifylogin:
+spotifyLogin:
   handler: 'src/handlers/spotify.login'
   events:
     - http:
         path: 'spotify/login'
         method: get
         cors: true
-
-callback:
+spotifyCallback:
   handler: 'src/handlers/spotify.callback'
   events:
     - http:
-        path: callback
+        path: 'spotify/callback'
         method: get
         cors: true
